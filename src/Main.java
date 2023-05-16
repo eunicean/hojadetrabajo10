@@ -8,6 +8,9 @@ public class Main {
         String city2 = "";
         Scanner scan = new Scanner(System.in);
 
+        Filereader filereader = new Filereader();
+        WeightedDirectionalGraph graph = filereader.generateGraphFromFile();
+
         while(option != 4){
             showMenu();
             option = scan.nextInt();
@@ -77,6 +80,11 @@ public class Main {
                             city1 = scan.nextLine();
                             System.out.println("Enter the name of the second city:");
                             city2 = scan.nextLine();
+                            System.out.println("What is the new weather condition:\n" +
+                                                "|1| Normal\n" +
+                                                "|2| Rain\n" +
+                                                "|3| Snow\n" +
+                                                "|4| Storm");
                             System.out.println(city1 + city2);
 
                             break;

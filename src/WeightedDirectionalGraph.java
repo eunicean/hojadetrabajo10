@@ -15,6 +15,11 @@ public class WeightedDirectionalGraph{
         vertices = new HashMap<String, Vertex>();
     }
 
+    public void InitializeMatrices(){
+        AdjacencyMatrix = new int[vertices.size()][vertices.size()];
+        TourMatrix = new String[vertices.size()][vertices.size()];
+    }
+
     public Vertex getVertex(String cityName) {
         return vertices.get(cityName);
     }
