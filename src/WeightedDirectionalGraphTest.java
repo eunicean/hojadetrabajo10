@@ -2,7 +2,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+//Initial JTests for the directional graph class.
 public class WeightedDirectionalGraphTest {
 
     private WeightedDirectionalGraph graph;
