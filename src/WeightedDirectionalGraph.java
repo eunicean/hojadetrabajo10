@@ -37,6 +37,7 @@ public class WeightedDirectionalGraph{
         if (startVertex != null && endVertex != null) {
             Connection connection = new Connection(start, end, normalTime, rainTime, snowTime, stormTime);
             startVertex.addNeighbor(connection);
+            System.out.println("The new connection was made");
 
         } else {
             System.out.println("Could not make the connection");
@@ -60,12 +61,15 @@ public class WeightedDirectionalGraph{
 
             if (connectionToDelete != null){
                 startVertex.removeNeighbor(connectionToDelete);
+                System.out.println("The connection was removed");
+                return;
             }
 
             else{
                 System.out.println("Connection not found");
             }
         }
+        System.out.println("Connection not found");
     }
 
     public void changeConnectionWight(String startCity, String endCity, String condition){
@@ -78,10 +82,12 @@ public class WeightedDirectionalGraph{
             for (Connection currentConnection: vertexConnections){
                 if(currentConnection.getEndCity().equals(endCity)){
                     currentConnection.updateCurrentTravelTime(condition);
+                    System.out.println("The travel time was been updated");
                     break;
                 }
             }
         }
+        System.out.println("Could not change the current travel time");
     }
 
 

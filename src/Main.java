@@ -47,6 +47,7 @@ public class Main {
                             city2 = scan.nextLine();
                             System.out.println(city1 + city2);
 
+                            graph.removeConnection(city1,city2);
                             break;
 
                         case 2:
@@ -72,7 +73,7 @@ public class Main {
                             System.out.println("Snow Travel Time: " + snTime);
                             System.out.println("Storm Travel Time: " + stTime);
 
-
+                            graph.addConnection(city1,city2,nTime,rTime,snTime,stTime);
                             break;
 
                         case 3:
@@ -80,13 +81,14 @@ public class Main {
                             city1 = scan.nextLine();
                             System.out.println("Enter the name of the second city:");
                             city2 = scan.nextLine();
-                            System.out.println("What is the new weather condition:\n" +
+                            System.out.println("What is the new weather condition (type the condition without the number):\n" +
                                                 "|1| Normal\n" +
                                                 "|2| Rain\n" +
                                                 "|3| Snow\n" +
                                                 "|4| Storm");
-                            System.out.println(city1 + city2);
-
+                            String climateCond = scan.nextLine();
+                            System.out.println(city1 + city2 + "  " + climateCond);
+                            graph.changeConnectionWight(city1,city2,climateCond);
                             break;
 
                         default:
