@@ -84,12 +84,14 @@ public class WeightedDirectionalGraph{
 
     /**
      * Method to do the initial adjancency matriz
-     * @param option int to determinate which climate is going to be used
      */
-    public void doAdjacencyMatrix(int option){
+    public void doAdjacencyMatrix(){
         //initial preparations for the matrix
         AdjacencyMatrix = new String[vertices.size()+1][vertices.size()+1];
         TourMatrix = new String[vertices.size()+1][vertices.size()+1];
+        AdjacencyMatrix[0][0] = "-";
+        TourMatrix[0][0] = "-";
+
         for(int c=1;c<vertices.size()+1;c++){
             for(int f=1;f<vertices.size()+1;f++){
                 AdjacencyMatrix[c][f] = "inf";
@@ -110,21 +112,29 @@ public class WeightedDirectionalGraph{
             for(int k=1; k< vertices.size()+1;k++){
                 TourMatrix[k][j] = city;
             }
+            j++;
         }
 
         //assigns initial values to adjacency matrix
         for(int x=1;x<vertices.size()+1;x++){
-            ArrayList<Connection> relations = vertices.get(AdjacencyMatrix[x][0]).getNeighbors();
-            int contNeighbors=0;
-            for(int y=1; y<vertices.size()+1;y++){
-                if(AdjacencyMatrix[0][y].equals(relations.get(contNeighbors))){
-                    AdjacencyMatrix[x][y] = Integer.toString(relations.get(contNeighbors).getCurrentTravelTime()) ;
+            Vertex myCity = vertices.get(AdjacencyMatrix[x][0]);
+            for(int y=1;y<vertices.size()+1;y++){
+                if(existConection(AdjacencyMatrix[0][y],myCity) != -1){
+                    AdjacencyMatrix[x][y] = Integer.toString(existConection(AdjacencyMatrix[0][y],myCity));
                 }
             }
-            contNeighbors++;
         }
 
 
+    }
+
+    public int existConection(String city2, Vertex compare){
+        for (Connection connection : compare.getNeighbors()){
+            if(connection.getEndCity().equals(city2)){
+                return connection.getCurrentTravelTime();
+            }
+        }
+        return -1;
     }
 
     /**
@@ -134,13 +144,13 @@ public class WeightedDirectionalGraph{
         int numVertices = vertices.size();
         int[][] dist = new int[numVertices][numVertices];
         //creates a dist matrix that will only work the floyd algorithm
-        for (int i = 1; i < numVertices+1; i++) {
-            for (int j = 1; j < numVertices+1; j++) {
-                if(AdjacencyMatrix[i][j].equals("ing")){
-                    dist[i][j] = -1;
+        for (int i = 0; i < numVertices; i++) {
+            for (int j = 0; j < numVertices; j++) {
+                if(AdjacencyMatrix[i+1][j+1].equals("inf")){
+                    dist[i][j] = 100000000;
                 }
                 else {
-                    dist[i][j] = Integer.parseInt(AdjacencyMatrix[i][j]);
+                    dist[i][j] = Integer.parseInt(AdjacencyMatrix[i+1][j+1]);
                 }
             }
         }
@@ -160,7 +170,7 @@ public class WeightedDirectionalGraph{
         //updates AdjacencyMatrix
         for (int i = 0; i < numVertices; i++) {
             for (int j = 0; j < numVertices; j++) {
-                AdjacencyMatrix[i][j] = Integer.toString(dist[i][j]);
+                AdjacencyMatrix[i+1][j+1] = Integer.toString(dist[i][j]);
             }
         }
     }
@@ -173,10 +183,12 @@ public class WeightedDirectionalGraph{
      */
     public String shortestRoute(String city1,String city2){
         String r = "";
+        doAdjacencyMatrix();
+        FloydAlgorithmProcess();
         for(int i=0;i<AdjacencyMatrix[0].length; i++){
             for(int j=0;j<AdjacencyMatrix[0].length; j++){
                 if (AdjacencyMatrix[0][i].equals(city2) && AdjacencyMatrix[j][0].equals(city1)){
-                    r = "Shortest Route: " + AdjacencyMatrix[j][i] + "\nTour: [ " + getRoute(j,i);
+                    r = "Shortest Route: " + AdjacencyMatrix[j][i] + "\nTour: [ " + city1 + " - "+ getRoute(j,i);
                     break;
                 }
             }
@@ -194,7 +206,7 @@ public class WeightedDirectionalGraph{
     public String getRoute(int city1,int city2){
         String r = "";
 
-        r += TourMatrix[city1][city2] + " - ";
+        r += TourMatrix[city1][city2];
         if(!TourMatrix[city1][city2].equals(TourMatrix[0][city2])){
             String city = TourMatrix[city1][city2];
             int cityPos = 0;
@@ -203,7 +215,7 @@ public class WeightedDirectionalGraph{
                     cityPos = i;
                 }
             }
-            r+=getRoute(city1,cityPos);
+            r+= " - " + getRoute(cityPos,city2);
         }
         else {
             r += " ]";

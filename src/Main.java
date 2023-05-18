@@ -24,8 +24,8 @@ public class Main {
                     System.out.println("Enter the name of the destiny city:");
                     city2 = scan.nextLine();
 
-                    System.out.println(city1 + city2);
-
+                    System.out.println("Viaje de " + city1 + " a " + city2);
+                    System.out.println(graph.shortestRoute(city1, city2));
                     break;
 
                 case 2:
@@ -45,9 +45,11 @@ public class Main {
                             city1 = scan.nextLine();
                             System.out.println("Enter the name of the destiny city:");
                             city2 = scan.nextLine();
-                            System.out.println(city1 + city2);
+                            System.out.println("Remover viaje de " + city1 + " a " + city2);
 
                             graph.removeConnection(city1,city2);
+                            graph.doAdjacencyMatrix();
+                            graph.FloydAlgorithmProcess();
                             break;
 
                         case 2:
@@ -74,6 +76,8 @@ public class Main {
                             System.out.println("Storm Travel Time: " + stTime);
 
                             graph.addConnection(city1,city2,nTime,rTime,snTime,stTime);
+                            graph.doAdjacencyMatrix();
+                            graph.FloydAlgorithmProcess();
                             break;
 
                         case 3:
@@ -89,6 +93,8 @@ public class Main {
                             String climateCond = scan.nextLine();
                             System.out.println(city1 + city2 + "  " + climateCond);
                             graph.changeConnectionWight(city1,city2,climateCond);
+                            graph.doAdjacencyMatrix();
+                            graph.FloydAlgorithmProcess();
                             break;
 
                         default:
