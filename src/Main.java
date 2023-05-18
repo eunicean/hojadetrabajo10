@@ -85,7 +85,7 @@ public class Main {
                             city1 = scan.nextLine();
                             System.out.println("Enter the name of the second city:");
                             city2 = scan.nextLine();
-                            System.out.println("What is the new weather condition:\n" +
+                            System.out.println("What is the new weather condition (type the condition without the number):\n" +
                                                 "|1| Normal\n" +
                                                 "|2| Rain\n" +
                                                 "|3| Snow\n" +
@@ -95,6 +95,7 @@ public class Main {
                             graph.changeConnectionWight(city1,city2,climateCond);
                             graph.doAdjacencyMatrix();
                             graph.FloydAlgorithmProcess();
+
                             break;
 
                         default:
