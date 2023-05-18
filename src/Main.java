@@ -11,6 +11,9 @@ public class Main {
         Filereader filereader = new Filereader();
         WeightedDirectionalGraph graph = filereader.generateGraphFromFile();
 
+        graph.doAdjacencyMatrix();
+        graph.FloydAlgorithmProcess();
+
         while(option != 4){
             showMenu();
             option = scan.nextInt();
@@ -29,8 +32,7 @@ public class Main {
                     break;
 
                 case 2:
-                    System.out.println("The city at the center is: \n");
-
+                    System.out.println(graph.getCenter());
                     break;
 
                 case 3:

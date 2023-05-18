@@ -6,17 +6,10 @@ public class WeightedDirectionalGraph{
     private HashMap<String,Vertex> vertices;
     private String[][] AdjacencyMatrix;
     private String[][] TourMatrix;
-    //To do:
-    //Method to make and show the adjacencyMatrix(they should be called in the main class after the file is read)
-    //Method to make and show the matrix and tourMatrix (they should be called in the main class after the file is read)
-    //Method to find the shortest rout between 2 cities
-    //Method to find the center of the graph
 
     public WeightedDirectionalGraph(){
         vertices = new HashMap<String, Vertex>();
     }
-
-
 
     public Vertex getVertex(String cityName) {
         return vertices.get(cityName);
@@ -197,7 +190,6 @@ public class WeightedDirectionalGraph{
                 }
             }
         }
-
         return r;
     }
 
