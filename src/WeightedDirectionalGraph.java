@@ -86,12 +86,26 @@ public class WeightedDirectionalGraph{
 
     public void doAdjacencyMatrix(int option){
         AdjacencyMatrix = new String[vertices.size()+1][vertices.size()+1];
+        for(int c=1;c<vertices.size()+1;c++){
+            for(int f=1;f<vertices.size()+1;f++){
+                AdjacencyMatrix[c][f] = "";
+            }
+        }
         int i=1;
         for (String city : vertices.keySet()){
             AdjacencyMatrix[0][i] = city;
             AdjacencyMatrix[i][0] = city;
+            AdjacencyMatrix[i][i] = "0";
             i++;
         }
+        for(int x=1;x<vertices.size()+1;x++){
+            ArrayList<Connection> relations = vertices.get(AdjacencyMatrix[x][0]).getNeighbors();
+            int contNeighbors=0;
+            for(int y=1; y<vertices.size()+1;y++){
+                
+            }
+        }
+
     }
 
 }
