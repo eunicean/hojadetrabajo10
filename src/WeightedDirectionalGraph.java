@@ -1,9 +1,10 @@
-import java.util.ArrayList;
+import java.util.*;
 import java.util.HashMap;
 
 public class WeightedDirectionalGraph{
+
     private HashMap<String,Vertex> vertices;
-    private int[][] AdjacencyMatrix;
+    private String[][] AdjacencyMatrix;
     private String[][] TourMatrix;
     //To do:
     //Method to make and show the adjacencyMatrix(they should be called in the main class after the file is read)
@@ -16,7 +17,6 @@ public class WeightedDirectionalGraph{
     }
 
     public void InitializeMatrices(){
-        AdjacencyMatrix = new int[vertices.size()][vertices.size()];
         TourMatrix = new String[vertices.size()][vertices.size()];
     }
 
@@ -84,5 +84,14 @@ public class WeightedDirectionalGraph{
         }
     }
 
+    public void doAdjacencyMatrix(int option){
+        AdjacencyMatrix = new String[vertices.size()+1][vertices.size()+1];
+        int i=1;
+        for (String city : vertices.keySet()){
+            AdjacencyMatrix[0][i] = city;
+            AdjacencyMatrix[i][0] = city;
+            i++;
+        }
+    }
 
 }
