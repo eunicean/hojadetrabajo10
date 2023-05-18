@@ -28,7 +28,6 @@ public class Filereader {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        graph.InitializeMatrices();
         System.out.println("Graph Generated");
         return graph;
     }

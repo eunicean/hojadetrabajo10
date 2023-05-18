@@ -16,9 +16,7 @@ public class WeightedDirectionalGraph{
         vertices = new HashMap<String, Vertex>();
     }
 
-    public void InitializeMatrices(){
-        TourMatrix = new String[vertices.size()][vertices.size()];
-    }
+
 
     public Vertex getVertex(String cityName) {
         return vertices.get(cityName);
@@ -91,6 +89,7 @@ public class WeightedDirectionalGraph{
     public void doAdjacencyMatrix(int option){
         //initial preparations for the matrix
         AdjacencyMatrix = new String[vertices.size()+1][vertices.size()+1];
+        TourMatrix = new String[vertices.size()+1][vertices.size()+1];
         for(int c=1;c<vertices.size()+1;c++){
             for(int f=1;f<vertices.size()+1;f++){
                 AdjacencyMatrix[c][f] = "inf";
@@ -104,32 +103,58 @@ public class WeightedDirectionalGraph{
             i++;
         }
 
-        //asigns initial values to adjacency matrix
+        int j=1;
+        for(String city: vertices.keySet()){
+            TourMatrix[0][j] = city;
+            TourMatrix[j][0] = city;
+            for(int k=1; k< vertices.size()+1;k++){
+                TourMatrix[k][j] = city;
+            }
+        }
+
+        //assigns initial values to adjacency matrix
         for(int x=1;x<vertices.size()+1;x++){
             ArrayList<Connection> relations = vertices.get(AdjacencyMatrix[x][0]).getNeighbors();
             int contNeighbors=0;
             for(int y=1; y<vertices.size()+1;y++){
                 if(AdjacencyMatrix[0][y].equals(relations.get(contNeighbors))){
-                    switch (option) {
-                        case 1:
-                            AdjacencyMatrix[x][y] = Integer.toString(relations.get(contNeighbors).getNormalTravelTime()) ;
-                            break;
-                        case 2:
-                            AdjacencyMatrix[x][y] = Integer.toString(relations.get(contNeighbors).getRainTravelTime()) ;
-                            break;
-                        case 3:
-                            AdjacencyMatrix[x][y] = Integer.toString(relations.get(contNeighbors).getSnowTravelTime()) ;
-                            break;
-                        case 4:
-                            AdjacencyMatrix[x][y] = Integer.toString(relations.get(contNeighbors).getStormTravelTime()) ;
-                            break;
-                        default:
-                            break;
-                    }
+                    AdjacencyMatrix[x][y] = Integer.toString(relations.get(contNeighbors).getCurrentTravelTime()) ;
                 }
-                contNeighbors++;
+            }
+            contNeighbors++;
+        }
+
+
+    }
+
+    public void FloydAlgorithmProcess(){
+        int numVertices = vertices.size();
+        int[][] dist = new int[numVertices][numVertices];
+
+        for (int i = 1; i < numVertices+1; i++) {
+            for (int j = 1; j < numVertices+1; j++) {
+                if(AdjacencyMatrix[i][j].equals("ing")){
+                    dist[i][j] = -1;
+                }
+                else {
+                    dist[i][j] = Integer.parseInt(AdjacencyMatrix[i][j]);
+                }
             }
         }
+
+        int nameCity = 0;
+        for (int k = 0; k < numVertices; k++) {
+            for (int i = 0; i < numVertices; i++) {
+                for (int j = 0; j < numVertices; j++) {
+                    if (dist[i][k] + dist[k][j] < dist[i][j]) {
+                        nameCity = k;
+                        TourMatrix[i+1][j+1] = AdjacencyMatrix[0][k+1];
+                        dist[i][j] = dist[i][k] + dist[k][j];
+                    }
+                }
+            }
+        }
+
     }
 
     public void printAdjacencyMatrix(){

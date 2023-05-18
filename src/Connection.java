@@ -7,6 +7,8 @@ public class Connection {
     private int SnowTravelTime;
     private int StormTravelTime;
     private int CurrentTravelTime;
+
+
     public Connection(String start, String end, int nTime, int rTime, int snTime, int stTime){
         this.OriginCity = start;
         this.EndCity = end;
