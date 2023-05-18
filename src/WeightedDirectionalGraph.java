@@ -155,12 +155,10 @@ public class WeightedDirectionalGraph{
             }
         }
         //does the floyd algorithm and changes the values in tourMatrix
-        int nameCity = 0;
         for (int k = 0; k < numVertices; k++) {
             for (int i = 0; i < numVertices; i++) {
                 for (int j = 0; j < numVertices; j++) {
                     if (dist[i][k] + dist[k][j] < dist[i][j]) {
-                        nameCity = k;
                         TourMatrix[i+1][j+1] = AdjacencyMatrix[0][k+1];
                         dist[i][j] = dist[i][k] + dist[k][j];
                     }
@@ -232,5 +230,35 @@ public class WeightedDirectionalGraph{
         for(String[] row:TourMatrix){
             System.out.println(Arrays.toString(row));
         }
+    }
+
+    public String getCenter(){
+        String r = "The city in the center is: \n";
+        HashMap<String,Integer> eccentricity = new HashMap<>();
+
+        for (int i=1;i<AdjacencyMatrix[0].length;i++){
+
+            ArrayList<Integer> cityShortestTime = new ArrayList<>();
+            for(int j=1;j<AdjacencyMatrix[0].length;j++){
+                if(!AdjacencyMatrix[i][j].equals("100000000")){
+                    cityShortestTime.add(Integer.parseInt(AdjacencyMatrix[i][j]));
+                }
+            }
+            eccentricity.put(AdjacencyMatrix[i][0],Collections.max(cityShortestTime));
+        }
+
+        int maxValue = Collections.max(eccentricity.values());
+        List<String> keys = new ArrayList<>();
+
+        for (String cityName: eccentricity.keySet()){
+            if(eccentricity.get(cityName) == maxValue){
+                keys.add(cityName);
+            }
+        }
+        for(String citie: keys){
+            r+= citie + "\n";
+        }
+
+        return r;
     }
 }
