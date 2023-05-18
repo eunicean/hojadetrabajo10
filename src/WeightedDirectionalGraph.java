@@ -84,7 +84,12 @@ public class WeightedDirectionalGraph{
         }
     }
 
+    /**
+     * Method to do the initial adjancency matriz
+     * @param option int to determinate which climate is going to be used
+     */
     public void doAdjacencyMatrix(int option){
+        //initial preparations for the matrix
         AdjacencyMatrix = new String[vertices.size()+1][vertices.size()+1];
         for(int c=1;c<vertices.size()+1;c++){
             for(int f=1;f<vertices.size()+1;f++){
@@ -98,6 +103,8 @@ public class WeightedDirectionalGraph{
             AdjacencyMatrix[i][i] = "0";
             i++;
         }
+
+        //asigns initial values to adjacency matrix
         for(int x=1;x<vertices.size()+1;x++){
             ArrayList<Connection> relations = vertices.get(AdjacencyMatrix[x][0]).getNeighbors();
             int contNeighbors=0;
@@ -116,7 +123,6 @@ public class WeightedDirectionalGraph{
                         case 4:
                             AdjacencyMatrix[x][y] = Integer.toString(relations.get(contNeighbors).getStormTravelTime()) ;
                             break;
-
                         default:
                             break;
                     }
@@ -124,7 +130,11 @@ public class WeightedDirectionalGraph{
                 contNeighbors++;
             }
         }
-
     }
 
+    public void printAdjacencyMatrix(){
+        for(String[] row:AdjacencyMatrix){
+            System.out.println(Arrays.toString(row));
+        }
+    }
 }
