@@ -88,7 +88,7 @@ public class WeightedDirectionalGraph{
         AdjacencyMatrix = new String[vertices.size()+1][vertices.size()+1];
         for(int c=1;c<vertices.size()+1;c++){
             for(int f=1;f<vertices.size()+1;f++){
-                AdjacencyMatrix[c][f] = "";
+                AdjacencyMatrix[c][f] = "inf";
             }
         }
         int i=1;
@@ -102,7 +102,26 @@ public class WeightedDirectionalGraph{
             ArrayList<Connection> relations = vertices.get(AdjacencyMatrix[x][0]).getNeighbors();
             int contNeighbors=0;
             for(int y=1; y<vertices.size()+1;y++){
-                
+                if(AdjacencyMatrix[0][y].equals(relations.get(contNeighbors))){
+                    switch (option) {
+                        case 1:
+                            AdjacencyMatrix[x][y] = Integer.toString(relations.get(contNeighbors).getNormalTravelTime()) ;
+                            break;
+                        case 2:
+                            AdjacencyMatrix[x][y] = Integer.toString(relations.get(contNeighbors).getRainTravelTime()) ;
+                            break;
+                        case 3:
+                            AdjacencyMatrix[x][y] = Integer.toString(relations.get(contNeighbors).getSnowTravelTime()) ;
+                            break;
+                        case 4:
+                            AdjacencyMatrix[x][y] = Integer.toString(relations.get(contNeighbors).getStormTravelTime()) ;
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+                contNeighbors++;
             }
         }
 
