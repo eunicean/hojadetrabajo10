@@ -127,10 +127,13 @@ public class WeightedDirectionalGraph{
 
     }
 
+    /**
+     * Method that does all the process corresponding to the Floyd Warshall algorithm
+     */
     public void FloydAlgorithmProcess(){
         int numVertices = vertices.size();
         int[][] dist = new int[numVertices][numVertices];
-
+        //creates a dist matrix that will only work the floyd algorithm
         for (int i = 1; i < numVertices+1; i++) {
             for (int j = 1; j < numVertices+1; j++) {
                 if(AdjacencyMatrix[i][j].equals("ing")){
@@ -141,7 +144,7 @@ public class WeightedDirectionalGraph{
                 }
             }
         }
-
+        //does the floyd algorithm and changes the values in tourMatrix
         int nameCity = 0;
         for (int k = 0; k < numVertices; k++) {
             for (int i = 0; i < numVertices; i++) {
@@ -154,11 +157,67 @@ public class WeightedDirectionalGraph{
                 }
             }
         }
+        //updates AdjacencyMatrix
+        for (int i = 0; i < numVertices; i++) {
+            for (int j = 0; j < numVertices; j++) {
+                AdjacencyMatrix[i][j] = Integer.toString(dist[i][j]);
+            }
+        }
+    }
 
+    /**
+     * method that finds the shortest route
+     * @param city1 string with the name of the city from where is being departed
+     * @param city2 string with the name of the city to where is being traveled
+     * @return string with the distance of the shortest route and all the cities that pass through
+     */
+    public String shortestRoute(String city1,String city2){
+        String r = "";
+        for(int i=0;i<AdjacencyMatrix[0].length; i++){
+            for(int j=0;j<AdjacencyMatrix[0].length; j++){
+                if (AdjacencyMatrix[0][i].equals(city2) && AdjacencyMatrix[j][0].equals(city1)){
+                    r = "Shortest Route: " + AdjacencyMatrix[j][i] + "\nTour: [ " + getRoute(j,i);
+                    break;
+                }
+            }
+        }
+
+        return r;
+    }
+
+    /**
+     * method to do recursive process to get all teh cities between two
+     * @param city1 int that indicate the position os the first city
+     * @param city2 int that indicate the position os the second city, where we want to go
+     * @return with the name of the city that is passed
+     */
+    public String getRoute(int city1,int city2){
+        String r = "";
+
+        r += TourMatrix[city1][city2] + " - ";
+        if(!TourMatrix[city1][city2].equals(TourMatrix[0][city2])){
+            String city = TourMatrix[city1][city2];
+            int cityPos = 0;
+            for(int i = 0 ; i < TourMatrix[0].length ; i++){
+                if (TourMatrix[0][i].equals(city)){
+                    cityPos = i;
+                }
+            }
+            r+=getRoute(city1,cityPos);
+        }
+        else {
+            r += " ]";
+        }
+        return r;
     }
 
     public void printAdjacencyMatrix(){
         for(String[] row:AdjacencyMatrix){
+            System.out.println(Arrays.toString(row));
+        }
+    }
+    public void printTourMatrix(){
+        for(String[] row:TourMatrix){
             System.out.println(Arrays.toString(row));
         }
     }
